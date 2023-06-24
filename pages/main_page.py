@@ -1,10 +1,9 @@
-from selenium.webdriver.common.by import By
+from appium.webdriver.common.appiumby import AppiumBy
 
 from pages.base_page import Page
 
-
 class MainPage(Page):
-    SEARCH = (By.XPATH, "//*[@text='Search Wikipedia']")
+    SEARCH_ICON = (AppiumBy.XPATH, "//android.widget.ImageView[@content-desc='Search Wikipedia']")
 
-    def click_search_wiki(self):
-        self.click(*self.SEARCH)
+    def click_search(self):
+        self.click(*self.SEARCH_ICON)
