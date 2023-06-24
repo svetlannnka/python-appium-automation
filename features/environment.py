@@ -12,7 +12,7 @@ def mobile_driver_init(context, test_name):
     desired_capabilities = {
         "platformName": "Android",
         "automationName": 'uiautomator2',
-        "platformVersion": "12",
+        "platformVersion": "10",
         "deviceName": "Android Emulator",
         "appActivity": "org.wikipedia.main.MainActivity",
         "appPackage": "org.wikipedia",
@@ -20,7 +20,6 @@ def mobile_driver_init(context, test_name):
     }
 
     context.driver = webdriver.Remote(command_executor='http://localhost:4723', desired_capabilities=desired_capabilities)
-
     context.driver.implicitly_wait(5)
     context.driver.wait = WebDriverWait(context.driver, 10)
 

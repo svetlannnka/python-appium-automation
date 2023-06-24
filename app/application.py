@@ -6,7 +6,6 @@ class Application:
 
     def __init__(self, driver):
         self.driver = driver
-
         self.main_page = MainPage(self.driver)
         self.search_page = SearchPage(self.driver)
         self.welcome_page = WelcomePage(self.driver)

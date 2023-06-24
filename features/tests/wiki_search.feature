@@ -6,4 +6,3 @@ Feature: Wiki Search tests
     When Click search icon
     And Search for Python (Programming language)
     Then Verify search results shown for Python (programming language)
-
