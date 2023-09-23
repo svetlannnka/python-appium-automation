@@ -1,14 +1,16 @@
 from appium import webdriver
+from appium.options.android import UiAutomator2Options
+
 from selenium.webdriver.support.wait import WebDriverWait
 
 from app.application import Application
 
 
-def mobile_driver_init(context, test_name):
+def app_init(context, scenario_name):  # add scenario_name if you want to use it in Browserstack
     """
     :param context: Behave context
-    :param test_name: scenario.name
     """
+
     desired_capabilities = {
         "platformName": "Android",
         "automationName": 'uiautomator2',
@@ -19,7 +21,10 @@ def mobile_driver_init(context, test_name):
         "app": "/Users/svetlanalevinsohn/JobEasy/python-appium-automation/mobile_app/wikipedia.apk"
     }
 
-    context.driver = webdriver.Remote(command_executor='http://localhost:4723', desired_capabilities=desired_capabilities)
+    appium_server_url = 'http://localhost:4723'
+    capabilities_options = UiAutomator2Options().load_capabilities(desired_capabilities)
+
+    context.driver = webdriver.Remote(appium_server_url, options=capabilities_options)
     context.driver.implicitly_wait(5)
     context.driver.wait = WebDriverWait(context.driver, 10)
 
@@ -28,7 +33,8 @@ def mobile_driver_init(context, test_name):
 
 def before_scenario(context, scenario):
     print('\nStarted scenario: ', scenario.name)
-    mobile_driver_init(context, scenario.name)
+    # Pass scenario.name to init() for browserstack config:
+    app_init(context, scenario.name)
 
 
 def before_step(context, step):

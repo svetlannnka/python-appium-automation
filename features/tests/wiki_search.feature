@@ -1,8 +1,7 @@
-# Created by svetlanalevinsohn at 5/6/23
-Feature: Wiki Search tests
+Feature: Tests for search
 
   Scenario: User can search on Wikipedia
-    Given Click to skip onboarding
-    When Click search icon
-    And Search for Python (Programming language)
-    Then Verify search results shown for Python (programming language)
+    Given Skip welcome screen
+    When Tap Search
+    And Search for Python (programming language)
+    Then Verify Python (programming language) is shown

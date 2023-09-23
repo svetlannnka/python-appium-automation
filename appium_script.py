@@ -1,5 +1,7 @@
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
+from appium.options.android import UiAutomator2Options
+
 from time import sleep
 
 desired_capabilities = {
@@ -12,7 +14,10 @@ desired_capabilities = {
     "app": "/Users/svetlanalevinsohn/JobEasy/python-appium-automation/mobile_app/wikipedia.apk"
 }
 
-driver = webdriver.Remote(command_executor='http://localhost:4723', desired_capabilities=desired_capabilities)
+appium_server_url = 'http://localhost:4723'
+capabilities_options = UiAutomator2Options().load_capabilities(desired_capabilities)
+
+driver = webdriver.Remote(appium_server_url, options=capabilities_options)
 driver.implicitly_wait(5)
 
 # Click Skip
@@ -23,8 +28,8 @@ driver.find_element(AppiumBy.XPATH, "//android.widget.ImageView[@content-desc='S
 
 # Search for Python programming language
 driver.find_element(AppiumBy.ID, 'org.wikipedia:id/search_src_text').send_keys('Python programming language')
-
 sleep(5)
+
 search_result = driver.find_element(AppiumBy.ID, 'org.wikipedia:id/page_list_item_title').text
 expected_result = 'Python (programming language)'
 assert search_result == expected_result, f'Expected {expected_result} but got {search_result}'
