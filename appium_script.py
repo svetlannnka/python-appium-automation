@@ -4,6 +4,7 @@ from appium.options.android import UiAutomator2Options
 
 from time import sleep
 
+
 desired_capabilities = {
     "platformName": "Android",
     "automationName": 'uiautomator2',
@@ -11,7 +12,8 @@ desired_capabilities = {
     "deviceName": "Android Emulator",
     "appActivity": "org.wikipedia.main.MainActivity",
     "appPackage": "org.wikipedia",
-    "app": "/Users/svetlanalevinsohn/JobEasy/python-appium-automation/mobile_app/wikipedia.apk"
+    # Put your path below:
+    "app": ".../mobile_app/wikipedia.apk"
 }
 
 appium_server_url = 'http://localhost:4723'
@@ -20,18 +22,19 @@ capabilities_options = UiAutomator2Options().load_capabilities(desired_capabilit
 driver = webdriver.Remote(appium_server_url, options=capabilities_options)
 driver.implicitly_wait(5)
 
-# Click Skip
+# Click Skip btn
 driver.find_element(AppiumBy.ID, 'org.wikipedia:id/fragment_onboarding_skip_button').click()
 
-# Click on search icon
-driver.find_element(AppiumBy.XPATH, "//android.widget.ImageView[@content-desc='Search Wikipedia']").click()
+# Click Search icon
+driver.find_element(AppiumBy.XPATH, "//*[@content-desc='Search Wikipedia']").click()
 
-# Search for Python programming language
-driver.find_element(AppiumBy.ID, 'org.wikipedia:id/search_src_text').send_keys('Python programming language')
-sleep(5)
+# Populate search field:
+driver.find_element(AppiumBy.ID, 'org.wikipedia:id/search_src_text').send_keys('Python (programming language)')
 
-search_result = driver.find_element(AppiumBy.ID, 'org.wikipedia:id/page_list_item_title').text
+# Verification
 expected_result = 'Python (programming language)'
-assert search_result == expected_result, f'Expected {expected_result} but got {search_result}'
+actual_result = driver.find_element(AppiumBy.ID, 'org.wikipedia:id/page_list_item_title').text
+
+assert actual_result == expected_result, f'Expected {expected_result} did not match actual {actual_result}'
 
 driver.quit()
